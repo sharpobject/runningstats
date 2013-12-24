@@ -124,6 +124,9 @@ function running_stats:add_value(value, weight)
 end
 
 function running_stats:__add(other)
+  if type(other) == "number" then
+    other = running_stats(other)
+  end
   local res = running_stats()
   local dmean = other.m - self.m
   local total_n = self.n + other.n

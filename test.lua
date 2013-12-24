@@ -31,6 +31,14 @@ function test_add()
   assert_correct(stats, "__add")
 end
 
+function test_add2()
+  local stats = running_stats(values[1], 1.0)
+  for i=2,#values do
+    stats = stats + values[i]
+  end
+  assert_correct(stats, "__add2")
+end
+
 function test_add_value()
   local stats = running_stats(values[1])
   for i=2,#values do
@@ -57,3 +65,4 @@ end
 test_add()
 test_add_value()
 test_weighted_add_value()
+test_add2()
