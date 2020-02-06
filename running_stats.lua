@@ -74,6 +74,9 @@ end
 
 function running_stats:add_value(value, weight)
   weight = weight or 1
+  if weight == 0 then
+    return self
+  end
   local dmean = value - self.m
   local dmean2 = dmean * dmean
   local new_n = self.n + weight
@@ -123,11 +126,29 @@ function running_stats:add_value(value, weight)
   return self
 end
 
+function running_stats:copy_to(dst)
+  dst.n = self.n
+  dst.m = self.m
+  dst.M2 = self.M2
+  dst.M3 = self.M3
+  dst.M4 = self.M4
+  dst._stats_ready = false
+end
+
 function running_stats:__add(other)
-  if type(other) == "number" then
-    other = running_stats(other)
-  end
   local res = running_stats()
+  if type(other) == "number" then
+    self:copy_to(res)
+    res:add_value(other)
+    return res
+  end
+  if self.n == 0 then
+    other:copy_to(res)
+    return res
+  elseif other.n == 0 then
+    self:copy_to(res)
+    return res
+  end
   local dmean = other.m - self.m
   local total_n = self.n + other.n
   local dmean2 = dmean * dmean

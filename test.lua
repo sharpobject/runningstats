@@ -62,7 +62,24 @@ function test_weighted_add_value()
   reference.size = reference.size / scale
 end
 
+function test_zero()
+  local stats = running_stats()
+  stats:add_value(0,0)
+  assert(stats.n == 0)
+  assert(stats.m == 0)
+  assert(stats.M2 == 0)
+  assert(stats.M3 == 0)
+  assert(stats.M4 == 0)
+  stats = stats + stats
+  assert(stats.n == 0)
+  assert(stats.m == 0)
+  assert(stats.M2 == 0)
+  assert(stats.M3 == 0)
+  assert(stats.M4 == 0)
+end
+
 test_add()
 test_add_value()
 test_weighted_add_value()
 test_add2()
+test_zero()
