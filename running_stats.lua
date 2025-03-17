@@ -156,9 +156,9 @@ function running_stats:__add(other)
   local total_n2 = total_n * total_n
   local selfn2 = self.n * self.n
   local othern2 = other.n * other.n
-  local selfnotherndmean2overn = selfnothern * dmean2 / total_n
   local dmeanovern = dmean / total_n
-  local dmean2overn2 = dmean2 / total_n2
+  local selfnotherndmean2overn = selfnothern * dmean * dmeanovern
+  local dmean2overn2 = dmeanovern * dmeanovern
 
   res.n = total_n
   res.m = self.m + other.n * dmeanovern
