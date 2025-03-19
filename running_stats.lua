@@ -83,12 +83,12 @@ function running_stats:add_value(value, weight)
   local new_n2 = new_n * new_n
   local new_m, new_M2, new_M3, new_M4
   local dmeanovern = dmean / new_n
-  local dmean2overn2 = dmean2 / new_n2
+  local dmean2overn2 = dmeanovern * dmeanovern
   if  weight ~= 1 then
     -- In this branch we know that other.Mk are 0
     local selfnweight = self.n * weight
     local weight2 = weight * weight
-    local selfnweightdmean2overn = selfnweight * dmean2 / new_n
+    local selfnweightdmean2overn = selfnweight * dmean * dmeanovern
     new_m = self.m + weight * dmeanovern
     new_M2 = self.M2 + selfnweightdmean2overn
 
@@ -104,7 +104,7 @@ function running_stats:add_value(value, weight)
   else
     -- in this branch we also know that weight is 1
     local selfn2 = self.n * self.n
-    local selfndmean2overn = self.n * dmean2 / new_n
+    local selfndmean2overn = self.n * dmean * dmeanovern
     new_m = self.m + dmeanovern
     new_M2 = self.M2 + selfndmean2overn
 

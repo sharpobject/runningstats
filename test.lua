@@ -47,6 +47,19 @@ function test_add_value()
   assert_correct(stats, "add_value")
 end
 
+function test_sub_value()
+  local stats = running_stats()
+  stats.n = 1000000
+  for i=1,#values do
+    stats:add_value(values[i])
+  end
+  local negate_fake_zeros = running_stats()
+  negate_fake_zeros.n = -1000000
+  stats = stats + negate_fake_zeros
+  print("wow lol")
+  assert_correct(stats, "sub_value")
+end
+
 function test_weighted_add_value()
   local value_to_weight = {}
   local stats = running_stats()
@@ -83,3 +96,4 @@ test_add_value()
 test_weighted_add_value()
 test_add2()
 test_zero()
+test_sub_value()
